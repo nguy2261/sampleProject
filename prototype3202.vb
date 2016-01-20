@@ -1,3 +1,5 @@
+'Snip shot of forms and UI Design
+'https://www.mediafire.com/?tttnf9j83r9h1d9
 Public Class PriceTrac
     
     'Declare a structure for each product
