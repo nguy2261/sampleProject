@@ -1,5 +1,7 @@
 Public Class PriceTrac
-
+    
+    'Declare a structure for each product
+    'This could be a class instead of structure but for the sake of simplicity and demonstration, I implemented this as a structure
     Structure ProductAttribute
         Dim ID As Integer
         Dim Name As String
@@ -21,9 +23,15 @@ Public Class PriceTrac
         Dim att As String
         Dim type As String
     End Structure
+    
+    'Close the form'
     Private Sub btnQuit_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnQuit.Click
         Me.Close()
     End Sub
+
+
+'Load the database
+'In real business settings, this would establish the connection with actual dataware house of the company and get the information ready to be analyzed
 
     Private Sub PriceTrac_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
         'TODO: This line of code loads data into the 'PrototypeDatabase_v2_KushDataSet.COMPETING_PRODUCT_ATTRIBUTE' table. You can move, or remove it, as needed.
@@ -38,10 +46,13 @@ Public Class PriceTrac
         Me.PRODUCTTableAdapter.Fill(Me.PrototypeDatabase_v2_KushDataSet.PRODUCT)
     End Sub
 
+
+'UI Desisn and Implementation for each button
     Private Sub btnAtt_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnAtt.Click
         GroupBox.Visible = True
     End Sub
 
+'Start of UI Design
     Private Sub chkColor_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkColor.CheckedChanged
         If chkColor.Checked Then
             txtColor.Visible = True
@@ -106,10 +117,13 @@ Public Class PriceTrac
         End If
     End Sub
 
+'End of UI Design
+
     'Display the product button
     Private Sub btnDisplay_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnDisplay.Click
         Dim input As String = InputBox("Please enter the SKU", "SKU")
         If IsNumeric(input) Then 'Check input
+        
             'Find the product name and price by SKU in the PRODUCT Table
             Dim QueryName = From product In PrototypeDatabase_v2_KushDataSet.PRODUCT
                             Where product.PRO_SKU = CInt(input)
@@ -141,6 +155,7 @@ Public Class PriceTrac
 
 
     'Button Click
+    'Main button to get the attributes and search for product'
     Private Sub btnSKU_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnSKU.Click
         lstProduct.Items.Clear()
         Dim input As String = mskSKU.Text
@@ -171,7 +186,7 @@ Public Class PriceTrac
                                   Order By Comp_Pro.CPRO_ID Ascending
                                   Select Comp_Pro.CPRO_ID, CompetingProduct.CMP_Name, CompetingProduct.CPRO_Name, CompetingProduct.CPRO_Price
 
-                'Count how many match items
+                'Count how many match items that matched the search 
                 Dim Shorten = From CPro In QuerySearch
                                Select CPro.CPRO_ID, CPro.CMP_Name, CPro.CPRO_Name, CPro.CPRO_Price Distinct
 
